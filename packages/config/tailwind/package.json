@@ -1,0 +1,9 @@
+{
+  "name": "@app/tailwind-config",
+  "version": "1.0.0",
+  "private": true,
+  "main": "base.js",
+  "peerDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}

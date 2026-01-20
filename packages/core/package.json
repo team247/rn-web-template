@@ -1,0 +1,43 @@
+{
+  "name": "@app/core",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./api": "./src/api/index.ts",
+    "./store": "./src/store/index.ts",
+    "./hooks": "./src/hooks/index.ts",
+    "./types": "./src/types/index.ts",
+    "./utils": "./src/utils/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.9.1",
+    "@tanstack/react-query": "^5.62.8",
+    "axios": "^1.7.9",
+    "date-fns": "^4.1.0",
+    "react-hook-form": "^7.54.2",
+    "zod": "^3.24.1",
+    "zustand": "^5.0.2"
+  },
+  "devDependencies": {
+    "@app/eslint-config": "workspace:*",
+    "@app/jest-config": "workspace:*",
+    "@app/typescript-config": "workspace:*",
+    "@types/react": "^18.3.12",
+    "eslint": "^8.57.1",
+    "react": "^18.3.1",
+    "typescript": "^5.7.2"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  }
+}

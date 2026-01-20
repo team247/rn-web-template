@@ -1,0 +1,11 @@
+{
+  "name": "@app/jest-config",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./base.js",
+  "exports": {
+    ".": "./base.js",
+    "./base": "./base.js",
+    "./setup": "./setup.js"
+  }
+}
