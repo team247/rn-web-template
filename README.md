@@ -18,21 +18,21 @@ A production-ready monorepo template for building cross-platform applications th
 
 ## Tech Stack
 
-| Category | Technology |
-|----------|-----------|
-| Package Manager | pnpm + workspaces |
-| Build Orchestration | Turborepo |
-| Mobile | Expo SDK 54+ |
-| Web | Next.js 15+ (App Router) |
-| Navigation | React Navigation v7 + Solito |
-| State (Client) | Zustand |
-| State (Server) | TanStack Query v5 |
-| Styling | NativeWind v4 + Tailwind CSS |
-| HTTP Client | Axios |
-| Validation | Zod |
-| Forms | react-hook-form |
-| Date Handling | date-fns |
-| Testing | Jest + React Testing Library |
+| Category            | Technology                   |
+| ------------------- | ---------------------------- |
+| Package Manager     | pnpm + workspaces            |
+| Build Orchestration | Turborepo                    |
+| Mobile              | Expo SDK 54+                 |
+| Web                 | Next.js 15+ (App Router)     |
+| Navigation          | React Navigation v7 + Solito |
+| State (Client)      | Zustand                      |
+| State (Server)      | TanStack Query v5            |
+| Styling             | NativeWind v4 + Tailwind CSS |
+| HTTP Client         | Axios                        |
+| Validation          | Zod                          |
+| Forms               | react-hook-form              |
+| Date Handling       | date-fns                     |
+| Testing             | Jest + React Testing Library |
 
 ## Project Structure
 
@@ -132,19 +132,36 @@ pnpm ios
 pnpm android
 ```
 
-### EAS Build (Production)
+### EAS Build & Submit
 
 ```bash
-# Development build (with dev client)
 cd apps/mobile
-eas build --profile development
 
-# Preview build (for testing)
-eas build --profile preview
+# Development build (with dev client)
+npx eas-cli build --platform ios --profile development
+npx eas-cli build --platform android --profile development
+
+# Preview build (APK for Android testing)
+npx eas-cli build --platform android --profile preview
 
 # Production build
-eas build --profile production
+npx eas-cli build --platform ios --profile production
+npx eas-cli build --platform android --profile production
+
+# Submit to TestFlight (after iOS build)
+npx eas-cli submit --platform ios
+
+# Build + Submit in one command
+npx eas-cli build --platform ios --profile production --auto-submit
 ```
+
+### Build Profiles
+
+| Profile       | Purpose                    | Distribution |
+| ------------- | -------------------------- | ------------ |
+| `development` | Dev client with hot reload | Internal     |
+| `preview`     | Testing (generates APK)    | Internal     |
+| `production`  | App Store / TestFlight     | Store        |
 
 ## Testing
 
@@ -232,9 +249,7 @@ NativeWind allows you to use Tailwind CSS classes in React Native:
 
 ```tsx
 <View className="flex-1 bg-white p-4">
-  <Text className="text-lg font-bold text-gray-900">
-    Hello World
-  </Text>
+  <Text className="text-lg font-bold text-gray-900">Hello World</Text>
 </View>
 ```
 
@@ -254,9 +269,15 @@ import { setSecureStorageImplementation } from '@app/core';
 
 // Custom storage adapter
 setSecureStorageImplementation({
-  getItem: async (key) => { /* ... */ },
-  setItem: async (key, value) => { /* ... */ },
-  removeItem: async (key) => { /* ... */ },
+  getItem: async (key) => {
+    /* ... */
+  },
+  setItem: async (key, value) => {
+    /* ... */
+  },
+  removeItem: async (key) => {
+    /* ... */
+  },
 });
 ```
 
@@ -277,7 +298,7 @@ import { ErrorBoundary } from '@app/ui';
   fallback={<CustomErrorUI />}
 >
   <YourApp />
-</ErrorBoundary>
+</ErrorBoundary>;
 ```
 
 Both mobile and web apps have ErrorBoundary configured at the root level.
@@ -311,9 +332,7 @@ function LoginForm() {
   return (
     <form onSubmit={onSubmit}>
       <input {...form.register('email')} />
-      {form.formState.errors.email && (
-        <span>{form.formState.errors.email.message}</span>
-      )}
+      {form.formState.errors.email && <span>{form.formState.errors.email.message}</span>}
       {/* ... */}
     </form>
   );
@@ -324,17 +343,17 @@ function LoginForm() {
 
 ### Available Components
 
-| Component | Description |
-|-----------|-------------|
-| `Button` | Various variants (primary, secondary, outline, ghost, danger) and sizes |
-| `Input` | Form input with label, error, and hint support |
-| `Card` | Container component with CardHeader, CardContent, CardFooter |
-| `Text` | Typography components (Text, H1, H2, H3, H4, Caption) |
-| `Avatar` | User avatar with AvatarGroup for stacking |
-| `Badge` | Status badges |
-| `Container` | Layout containers |
-| `ErrorBoundary` | Error catching component |
-| `Skeleton` | Loading placeholders (Skeleton, SkeletonText, SkeletonCard, SkeletonList) |
+| Component       | Description                                                               |
+| --------------- | ------------------------------------------------------------------------- |
+| `Button`        | Various variants (primary, secondary, outline, ghost, danger) and sizes   |
+| `Input`         | Form input with label, error, and hint support                            |
+| `Card`          | Container component with CardHeader, CardContent, CardFooter              |
+| `Text`          | Typography components (Text, H1, H2, H3, H4, Caption)                     |
+| `Avatar`        | User avatar with AvatarGroup for stacking                                 |
+| `Badge`         | Status badges                                                             |
+| `Container`     | Layout containers                                                         |
+| `ErrorBoundary` | Error catching component                                                  |
+| `Skeleton`      | Loading placeholders (Skeleton, SkeletonText, SkeletonCard, SkeletonList) |
 
 ### Usage Example
 
@@ -360,17 +379,17 @@ import { Button, Card, CardContent, Input, Skeleton } from '@app/ui';
 
 ## Scripts
 
-| Command | Description |
-|---------|-------------|
-| `pnpm dev` | Start all apps in dev mode |
-| `pnpm dev:mobile` | Start mobile app only |
-| `pnpm dev:web` | Start web app only |
-| `pnpm build` | Build all apps |
-| `pnpm lint` | Lint all packages |
-| `pnpm typecheck` | Type check all packages |
-| `pnpm test` | Run all tests |
-| `pnpm test:watch` | Run tests in watch mode |
-| `pnpm clean` | Clean all build artifacts |
+| Command           | Description                |
+| ----------------- | -------------------------- |
+| `pnpm dev`        | Start all apps in dev mode |
+| `pnpm dev:mobile` | Start mobile app only      |
+| `pnpm dev:web`    | Start web app only         |
+| `pnpm build`      | Build all apps             |
+| `pnpm lint`       | Lint all packages          |
+| `pnpm typecheck`  | Type check all packages    |
+| `pnpm test`       | Run all tests              |
+| `pnpm test:watch` | Run tests in watch mode    |
+| `pnpm clean`      | Clean all build artifacts  |
 
 ## Contributing
 
